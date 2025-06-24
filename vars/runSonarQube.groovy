@@ -1,18 +1,21 @@
-def call(string SonarQube, string sonarUrl) {
-    stage("sonarqube analysis") {
-        withSonarQubeEnv("SonarQube"){
-            withCredentials([usernamePassword(
-                credentialsId: SonarQube,
-                usernameVariable: "SONAR_USER",
-                passwordVariable: "SONAR_PASS"
-            )])
-            sh """
-            -Dsonar.login=$SONAR_USER \
-            -Dsonar.host.url=$${sonarurl} \
-            -Dsonar.password=$SONAR_PASS \
-            -Dsonar.projectKey=${project.Key}
-            """
-
+def call(String sonarCredsId, String sonarUrl, String projectKey) {
+    stage("SonarQube Analysis") {
+        withSonarQubeEnv("SonarQube") {
+            withCredentials([
+                usernamePassword(
+                    credentialsId: sonarCredsId,
+                    usernameVariable: "SONAR_USER",
+                    passwordVariable: "SONAR_PASS"
+                )
+            ]) {
+                sh """
+                mvn sonar:sonar \
+                  -Dsonar.login=$SONAR_USER \
+                  -Dsonar.password=$SONAR_PASS \
+                  -Dsonar.host.url=${sonarUrl} \
+                  -Dsonar.projectKey=${projectKey}
+                """
+            }
         }
     }
 }
