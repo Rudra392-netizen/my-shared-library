@@ -1,15 +1,18 @@
-def call() {
-    // Fixed config
-    String projectKey = 'java-app'
-    String sonarUrl = 'http://44.201.86.107:9000'
-    String credentialsId = 'SonarQube'  // Jenkins credential ID for Sonar token
+def call(string SonarQube, string sonarUrl) {
+    stage("sonarqube analysis") {
+        withSonarQubeEnv("SonarQube"){
+            withCredentials([usernamePassword(
+                credentialsId: SonarQube,
+                usernameVariable: "SONAR_USER",
+                passwordVariable: "SONAR_PASS"
+            )])
+            sh """
+            -Dsonar.login=$SONAR_USER \
+            -Dsonar.host.url=$${sonarurl} \
+            -Dsonar.password=$SONAR_PASS \
+            -Dsonar.projectKey=${project.Key}
+            """
 
-    withCredentials([string(credentialsId: credentialsId, variable: 'SONAR_AUTH_TOKEN')]) {
-        sh """
-            mvn sonar:sonar \
-                -Dsonar.projectKey=${projectKey} \
-                -Dsonar.host.url=${sonarUrl} \
-                -Dsonar.login=${SONAR_AUTH_TOKEN}
-        """
+        }
     }
 }
