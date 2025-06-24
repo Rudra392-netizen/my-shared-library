@@ -1,5 +1,3 @@
 def call() {
-    stage("Build using maven") {
-        sh "mvn clean package"
-    }
+    sh "mvn clean package"
 }
