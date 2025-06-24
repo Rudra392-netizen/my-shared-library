@@ -6,6 +6,7 @@ def call(String sonarCredsId, String sonarServerName, String sonarUrl, String pr
                 -Dsonar.login=$SONAR_TOKEN \
                 -Dsonar.host.url=${sonarUrl} \
                 -Dsonar.projectKey=${projectKey}
+            
             """
         }
     }
