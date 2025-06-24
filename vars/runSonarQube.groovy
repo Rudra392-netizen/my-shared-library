@@ -1,5 +1,5 @@
-def call(String sonarCredsId, String sonarUrl, String projectKey) {
-    withSonarQubeEnv('SonarQube') {
+def call(String sonarCredsId, String sonarServerName, String sonarUrl, String projectKey) {
+    withSonarQubeEnv(sonarServerName) {
         withCredentials([string(credentialsId: sonarCredsId, variable: 'SONAR_TOKEN')]) {
             sh """
                 mvn sonar:sonar \
@@ -10,4 +10,3 @@ def call(String sonarCredsId, String sonarUrl, String projectKey) {
         }
     }
 }
-
