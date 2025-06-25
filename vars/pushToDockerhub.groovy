@@ -1,4 +1,4 @@
-def call(string IMAGE_NAME, string dockerHubCred) {
+def call(String IMAGE_NAME, String dockerHubCred) {
     stage("Push to dockerhub") {
         withCredentials([usernamePassword(
             credentialsId: dockerHubCred,
