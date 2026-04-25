@@ -1,5 +1,5 @@
 def call() {
     stage('Deploy to Kubernetes') {
-        sh 'kubectl apply -f k8s/deployment.yaml'
+        sh 'kubectl apply -f k8s/'
     }
 }
