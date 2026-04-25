@@ -1,11 +1,13 @@
-def call(String sonarCredsId, String sonarUrl, String projectKey) {
+def call(String appPath, String sonarCredsId, String sonarUrl, String projectKey) {
     withSonarQubeEnv("sonarqube") {
         withCredentials([string(credentialsId: sonarCredsId, variable: 'SONAR_TOKEN')]) {
             sh """
-                mvn sonar:sonar \
-                    -Dsonar.login=$SONAR_TOKEN \
+                cd ${appPath}
+                sonar-scanner \
+                    -Dsonar.projectKey=${projectKey} \
+                    -Dsonar.sources=. \
                     -Dsonar.host.url=${sonarUrl} \
-                    -Dsonar.projectKey=${projectKey}
+                    -Dsonar.login=$SONAR_TOKEN
             """
         }
     }
