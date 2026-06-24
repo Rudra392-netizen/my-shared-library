@@ -5,6 +5,6 @@ def call(String imageTag) {
 
     sed -i 's|IMAGE_TAG|${imageTag}|g' K8s/frontend/frontend.yaml
 
-    kubectl apply -f K8s/
+    kubectl apply -R -f K8s/
     """
 }
